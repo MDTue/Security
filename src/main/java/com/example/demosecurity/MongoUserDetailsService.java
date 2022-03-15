@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,8 +18,8 @@ public class MongoUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userService.findByEmail(username)
-                .map(userDocument -> new User(userDocument.getEmail(), userDocument.getPasswort(), List.of(new SimpleGrantedAuthority("ROLE_" +userDocument.getRole()))))
+        return userService.findByName(username)
+                .map(userDocument -> new User(userDocument.getName(), userDocument.getPasswort(), List.of(new SimpleGrantedAuthority("ROLE_" +userDocument.getRole()))))
                 .orElseThrow(() -> new UsernameNotFoundException(username + " not found"));
     }
 
