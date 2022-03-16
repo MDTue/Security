@@ -12,15 +12,24 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class ControllerUser {
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
-    @GetMapping("me")
-    public ResponseEntity<UserDocument> me(Principal principal){
-        return  ResponseEntity.of(userService.findByName(principal.getName()));
-    }
     @GetMapping
     public String greetUser(Principal principal){
         return("Hallo User "+ principal.getName());
     }
+    @GetMapping("me")
+    public ResponseEntity<UserDocument> me(Principal principal){
+        return  ResponseEntity.of(userService.findByName(principal.getName()));
+    }
+    @PostMapping
+    public UserDocument createUser(@RequestBody UserDocument user) {
+        user.setPasswort(passwordEncoder.encode(user.getPasswort()));
+        return userService.createUser(user);
+    }
+
+
+
 
 }
 

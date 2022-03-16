@@ -8,26 +8,22 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
 @RestController
-@RequestMapping("/api/admingreet")
+@RequestMapping("/api/users")
 @RequiredArgsConstructor
-public class ControllerAdmin {
+public class UserController {
+
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
-    @GetMapping
-    public String greetAdmin(Principal principal){
-        return("Hallo Admin"+principal.getName());
-    }
-
-    @GetMapping("me")
-    public ResponseEntity<UserDocument> me(Principal principal){
-        return  ResponseEntity.of(userService.findByName(principal.getName()));
-    }
     @PostMapping
     public UserDocument createUser(@RequestBody UserDocument user) {
         user.setPasswort(passwordEncoder.encode(user.getPasswort()));
         return userService.createUser(user);
     }
 
+    @GetMapping("me")
+    public ResponseEntity<UserDocument> me(Principal principal){
+        return  ResponseEntity.of(userService.findByName(principal.getName()));
+    }
 
 }
