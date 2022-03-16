@@ -23,7 +23,7 @@ public class UserController {
 
     @GetMapping("me")
     public ResponseEntity<UserDocument> me(Principal principal){
-        return  ResponseEntity.of(userService.findByName(principal.getName()));
+        return  ResponseEntity.of(userService.findByEmail(principal.getName()));
     }
 
 }

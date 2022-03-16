@@ -21,7 +21,7 @@ public class ControllerAdmin {
 
     @GetMapping("me")
     public ResponseEntity<UserDocument> me(Principal principal){
-        return  ResponseEntity.of(userService.findByName(principal.getName()));
+        return  ResponseEntity.of(userService.findByEmail(principal.getName()));
     }
     @PostMapping
     public UserDocument createUser(@RequestBody UserDocument user) {
